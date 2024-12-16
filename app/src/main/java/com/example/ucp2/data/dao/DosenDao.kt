@@ -11,6 +11,7 @@ interface DosenDao {
     @Insert // operasi create
     suspend fun insertDosen(dosen: Dosen)
 
+    //read
     @Query("SELECT * FROM dosen ORDER BY nama ASC")
     fun getALLDosen(): Flow<List<Dosen>>
 
