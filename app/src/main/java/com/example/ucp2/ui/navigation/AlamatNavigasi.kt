@@ -14,5 +14,17 @@ interface AlamatNavigasi{
         override val route = "insertmk"
     }
 
+    object DestinasiMkDetail : AlamatNavigasi{
+        override val route = "detail"
+        const val NIDN = "nidn"
+        val routesWithArg = "$route/{$NIDN}"
+    }
+
+    object DestinasiUpdate : AlamatNavigasi{
+        override val route = "update"
+        const val NIDN = "nidn"
+        val routesWithArg = "$route/{$NIDN}"
+    }
+
 
 }
