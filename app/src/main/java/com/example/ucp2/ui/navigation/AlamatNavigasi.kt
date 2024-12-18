@@ -26,5 +26,11 @@ interface AlamatNavigasi{
         val routesWithArg = "$route/{$NIDN}"
     }
 
+    object DestinasiListDosen : AlamatNavigasi{
+        override val route = "listDosen"
+    }
 
+    object DestinasiListMk : AlamatNavigasi{
+        override val route = "listMataKuliah"
+    }
 }
