@@ -6,5 +6,13 @@ interface AlamatNavigasi{
     object DestinasiHome : AlamatNavigasi{
         override val route = "home"
     }
+    object DestinasiDsnInsert : AlamatNavigasi{
+        override val route = "insertdosen"
+    }
+
+    object DestinasiMkInsert : AlamatNavigasi{
+        override val route = "insertmk"
+    }
+
 
 }
