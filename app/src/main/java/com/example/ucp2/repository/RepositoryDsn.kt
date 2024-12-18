@@ -8,5 +8,5 @@ interface RepositoryDsn {
 
     fun getALLDosen(): Flow<List<Dosen>>
 
-    fun getDosen(nidn : String): Flow<Dosen>
+
 }
