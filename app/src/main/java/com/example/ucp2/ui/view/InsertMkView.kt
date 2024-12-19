@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+
 package com.example.ucp2.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
@@ -5,19 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -131,7 +124,9 @@ fun FormMataKuliah(
     var selectedDosen by remember { mutableStateOf(mataKuliahEvent.DosenPengampu) }
 
     Column(
-        modifier = modifier.fillMaxWidth().padding(20.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(20.dp)
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -159,6 +154,41 @@ fun FormMataKuliah(
             color = Color.Red
         )
 
+        // Dropdown untuk memilih Dosen Pengampu
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = selectedDosen,
+                onValueChange = { },
+                label = { Text("Dosen Pengampu") },
+                readOnly = true,
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = "Dropdown Icon",
+                        modifier = Modifier.padding(4.dp)
+                    )
+                }
+            )
 
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                dosenList.forEach { dosen ->
+                    DropdownMenuItem(
+                        text = { Text(dosen) },
+                        onClick = {
+                            selectedDosen = dosen
+                            onValueChange(mataKuliahEvent.copy(DosenPengampu = dosen))
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
     }
 }
