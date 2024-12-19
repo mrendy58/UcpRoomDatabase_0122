@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.ucp2.data.entity.Dosen
+import com.example.ucp2.data.entity.MataKuliah
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,7 +17,5 @@ interface DosenDao {
     fun getALLDosen(): Flow<List<Dosen>>
 
     @Query("SELECT nama FROM dosen") // Hanya mengambil nama dosen
-    suspend fun getAllDosen(): List<String> // Mengambil daftar nama dosen
-
-
+    suspend fun getDosenList(): List<String> // Mengambil daftar nama dosen
 }
