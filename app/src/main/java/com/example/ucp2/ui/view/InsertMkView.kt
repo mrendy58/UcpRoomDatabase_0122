@@ -6,20 +6,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2.ui.customwidget.TopAppBar
 import com.example.ucp2.ui.viewmodel.DosenViewModel
+import com.example.ucp2.ui.viewmodel.FormErrorStateMK
 import com.example.ucp2.ui.viewmodel.InsertMkViewModel
 import com.example.ucp2.ui.viewmodel.MataKuliahEvent
 import com.example.ucp2.ui.viewmodel.MkUiState
@@ -109,5 +115,50 @@ fun InsertBodyMk(
         ) {
             Text("Simpan")
         }
+    }
+}
+
+//Form Mata Kuliah
+@Composable
+fun FormMataKuliah(
+    mataKuliahEvent: MataKuliahEvent,
+    onValueChange: (MataKuliahEvent) -> Unit,
+    errorState: FormErrorStateMK,
+    dosenList: List<String>,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedDosen by remember { mutableStateOf(mataKuliahEvent.DosenPengampu) }
+
+    Column(
+        modifier = modifier.fillMaxWidth().padding(20.dp)
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mataKuliahEvent.kode,
+            onValueChange = { onValueChange(mataKuliahEvent.copy(kode = it)) },
+            label = { Text("Kode Mata Kuliah") },
+            isError = errorState.kode != null,
+            placeholder = { Text("Masukkan Kode Mata Kuliah") }
+        )
+        Text(
+            text = errorState.kode ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mataKuliahEvent.namaMk,
+            onValueChange = { onValueChange(mataKuliahEvent.copy(namaMk = it)) },
+            label = { Text("Nama Mata Kuliah") },
+            isError = errorState.namaMk != null,
+            placeholder = { Text("Masukkan Nama Mata Kuliah") }
+        )
+        Text(
+            text = errorState.namaMk ?: "",
+            color = Color.Red
+        )
+
+
     }
 }
