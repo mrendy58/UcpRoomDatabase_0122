@@ -1,5 +1,6 @@
 package com.example.ucp2.ui.viewmodel
 
+import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.lifecycle.ViewModel
 import com.example.ucp2.data.entity.MataKuliah
 import com.example.ucp2.repository.RepositoryMatkul
@@ -7,6 +8,13 @@ import com.example.ucp2.repository.RepositoryMatkul
 class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewModel(){
 
 }
+
+// data class untuk ui state
+data class MkUiState(
+    val mataKuliahEvent: MataKuliahEvent = MataKuliahEvent(),
+    val isEntryValid: FormErrorState = FormErrorState(),
+    val snackBarMessage: String? = null
+)
 
 // data class untuk validasi form
 data class FormErrorState(
