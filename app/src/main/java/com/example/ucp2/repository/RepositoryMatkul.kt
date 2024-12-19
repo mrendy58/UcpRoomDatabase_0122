@@ -14,7 +14,5 @@ interface RepositoryMatkul {
 
     suspend fun updateMataKuliah(mataKuliah: MataKuliah)
 
-    suspend fun getDosenList(dosenDao: DosenDao): List<String> {
-        return dosenDao.getAllDosen() // Panggil method dari instance dosenDao
-    }
+    suspend fun getDosenList(): List<String>
 }
