@@ -1,12 +1,24 @@
 package com.example.ucp2.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.lifecycle.ViewModel
 import com.example.ucp2.data.entity.MataKuliah
 import com.example.ucp2.repository.RepositoryMatkul
 
 class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewModel(){
+    //State untuk ui
+    var uiState by mutableStateOf(MkUiState())
+        private set
 
+    //memperbaharui state berdasarkan input pengguna
+    fun updateState(mataKuliahEvent: MataKuliahEvent){
+        uiState = uiState.copy(
+            mataKuliahEvent = mataKuliahEvent
+        )
+    }
 }
 
 // data class untuk ui state
