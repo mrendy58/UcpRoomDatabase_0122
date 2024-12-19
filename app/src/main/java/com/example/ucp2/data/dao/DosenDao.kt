@@ -15,5 +15,8 @@ interface DosenDao {
     @Query("SELECT * FROM dosen ORDER BY nama ASC")
     fun getALLDosen(): Flow<List<Dosen>>
 
+    @Query("SELECT nama FROM dosen") // Hanya mengambil nama dosen
+    suspend fun getAllDosen(): List<String> // Mengambil daftar nama dosen
+
 
 }
