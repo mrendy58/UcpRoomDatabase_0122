@@ -8,7 +8,20 @@ class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewMo
 
 }
 
-
+// data class untuk validasi form
+data class FormErrorState(
+    val kode: String? = null,
+    val namaMk: String? = null,
+    val sks: String? = null,
+    val semester: String? = null,
+    val jenisMK: String? = null,
+    val DosenPengampu: String? = null
+){
+    fun isValid(): Boolean{
+        return kode == null && namaMk == null && sks == null && semester == null &&
+                jenisMK == null && DosenPengampu == null
+    }
+}
 // Data Class untuk event matakuliah
 data class MataKuliahEvent(
     val kode: String = "",
