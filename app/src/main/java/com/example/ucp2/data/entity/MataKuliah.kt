@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class MataKuliah(
     @PrimaryKey
     val kode: String,
-    val namaMk:String,
+    val namaMk: String,
     val sks: String,
     val semester: String,
     val jenisMK: String,
