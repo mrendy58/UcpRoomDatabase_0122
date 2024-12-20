@@ -7,12 +7,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp2.data.entity.MataKuliah
 import com.example.ucp2.repository.RepositoryMatkul
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewModel() {
     // State untuk UI
     var uiState by mutableStateOf(MkUiState())
-        private set
+
 
     // Memperbarui state berdasarkan input pengguna
     fun updateState(mataKuliahEvent: MataKuliahEvent) {
@@ -20,6 +28,34 @@ class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewMo
             mataKuliahEvent = mataKuliahEvent
         )
     }
+    val mkUiState: StateFlow<MkUiState> = repositoryMatkul.getALLMataKuliah()
+        .filterNotNull()
+        .map {
+            MkUiState(
+                listMk = it.toList(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(MkUiState(isLoading = true))
+            delay(900)
+        }
+        .catch {
+            emit(
+                MkUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(500),
+            initialValue = MkUiState(
+                isLoading = true,
+            )
+        )
 
     // Validasi data input pengguna
     private fun validateFields(): Boolean {
