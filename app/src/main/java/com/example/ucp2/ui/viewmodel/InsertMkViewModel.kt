@@ -70,6 +70,10 @@ class InsertMkViewModel(private val repositoryMatkul: RepositoryMatkul) : ViewMo
 
 // Data class untuk UI state
 data class MkUiState(
+    val listMk: List<MataKuliah> = listOf(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = "",
     val mataKuliahEvent: MataKuliahEvent = MataKuliahEvent(),
     val isEntryValid: FormErrorStateMK = FormErrorStateMK(),
     val snackBarMessage: String? = null
