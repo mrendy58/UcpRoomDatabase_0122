@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListDosenView(
     viewModel: ListDosenViewModel = viewModel(),
-    onDosenClick: (String) -> Unit, // You can replace this with any action when a dosen item is clicked
+    onDosenClick: (String) -> Unit,
     onAddDosen: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -102,4 +102,72 @@ fun BodyListDosenView(
         }
     }
 }
+
+@Composable
+fun ListDosen(
+    listDosen: List<Dosen>,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = {}
+) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(items = listDosen) { dosen ->
+            CardDosen(
+                dosen = dosen,
+                onClick = { onClick(dosen.nidn) }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CardDosen(
+    dosen: Dosen,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = dosen.nama,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = dosen.nidn,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = dosen.jenisKelamin,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
 
