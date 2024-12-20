@@ -23,7 +23,35 @@ import com.example.ucp2.data.entity.MataKuliah
 fun DetailMkView(){
 
 }
-
+@Composable
+fun CardDetailMk(
+    modifier: Modifier = Modifier,
+    mataKuliah: MataKuliah
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            PartDetailMk(judul = "Kode MK", data = mataKuliah.kode)
+            Spacer(modifier = Modifier.padding(4.dp))
+            PartDetailMk(judul = "Nama MK", data = mataKuliah.namaMk)
+            Spacer(modifier = Modifier.padding(4.dp))
+            PartDetailMk(judul = "SKS", data = mataKuliah.sks)
+            Spacer(modifier = Modifier.padding(4.dp))
+            PartDetailMk(judul = "Semester", data = mataKuliah.semester)
+            Spacer(modifier = Modifier.padding(4.dp))
+            PartDetailMk(judul = "Jenis MK", data = mataKuliah.jenisMK)
+            Spacer(modifier = Modifier.padding(4.dp))
+            PartDetailMk(judul = "Dosen Pengampu", data = mataKuliah.DosenPengampu)
+        }
+    }
+}
 @Composable
 fun PartDetailMk(
     modifier: Modifier = Modifier,
