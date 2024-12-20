@@ -16,14 +16,14 @@ interface AlamatNavigasi{
 
     object DestinasiMkDetail : AlamatNavigasi{
         override val route = "detail"
-        const val NIDN = "nidn"
-        val routesWithArg = "$route/{$NIDN}"
+        const val kode = "nidn"
+        val routesWithArg = "$route/{$kode}"
     }
 
     object DestinasiUpdate : AlamatNavigasi{
         override val route = "update"
-        const val NIDN = "nidn"
-        val routesWithArg = "$route/{$NIDN}"
+        const val kode = "nidn"
+        val routesWithArg = "$route/{$kode}"
     }
 
     object DestinasiListDosen : AlamatNavigasi{
