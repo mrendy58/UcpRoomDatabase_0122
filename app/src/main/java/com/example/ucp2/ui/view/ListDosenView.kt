@@ -53,5 +53,53 @@ fun ListDosenView(
         )
     }
 }
+@Composable
+fun BodyListDosenView(
+    dosenUiState: DosenListUiState,
+    onClick: (String) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
+    when {
+        dosenUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        dosenUiState.isError -> {
+            LaunchedEffect(dosenUiState.errorMessage) {
+                dosenUiState.errorMessage?.let { message ->
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(message)
+                    }
+                }
+            }
+        }
+        dosenUiState.listDosen.isEmpty() -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Tidak ada data dosen.",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+        else -> {
+            ListDosen(
+                listDosen = dosenUiState.listDosen,
+                onClick = onClick,
+                modifier = modifier
+            )
+        }
+    }
+}
 
