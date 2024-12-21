@@ -7,12 +7,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp2.data.entity.Dosen
 import com.example.ucp2.repository.RepositoryDsn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InsertDsnViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel(){
     // State untuk UI
     var uiState by mutableStateOf(DsnUiState())
-        private set
+
 
     // memperbaharui state berdasarkan input pengguna
     fun updateState(dosenEvent: DosenEvent){
@@ -61,6 +69,34 @@ class InsertDsnViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel()
     fun resetSnackBarMessage(){
         uiState = uiState.copy(snackBarMessage = null)
     }
+    val dsnUiState: StateFlow<DsnUiState> = repositoryDsn.getALLDosen()
+        .filterNotNull()
+        .map {
+            DsnUiState(
+                listDosen = it.toList(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DsnUiState(isLoading = true))
+            delay(900)
+        }
+        .catch {
+            emit(
+                DsnUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjado Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = DsnUiState(
+                isLoading = true,
+            )
+        )
 
 }
 
