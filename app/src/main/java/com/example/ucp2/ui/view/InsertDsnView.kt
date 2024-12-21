@@ -28,7 +28,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun InsertDsnView(
     onBack: () -> Unit,
-    onNavigate: () -> Unit,
+    onNavigateDosen: () -> Unit,
+    onAddDosen: () -> Unit = { },
     modifier: Modifier = Modifier,
     viewModel: InsertDsnViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -71,7 +72,7 @@ fun InsertDsnView(
                 },
                 onClick = {
                     viewModel.saveData() // Simpan data
-                    onNavigate()
+                    onNavigateDosen()
                 }
             )
         }
