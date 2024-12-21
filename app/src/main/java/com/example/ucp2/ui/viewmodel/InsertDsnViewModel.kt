@@ -66,6 +66,10 @@ class InsertDsnViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel()
 
 //data class untuk uiState
 data class DsnUiState(
+    val listDosen: List<Dosen> = listOf(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = "",
     val dosenEvent: DosenEvent = DosenEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage: String? = null
