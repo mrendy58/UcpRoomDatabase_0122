@@ -40,16 +40,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2.data.entity.MataKuliah
 import com.example.ucp2.ui.viewmodel.DetailMkViewModel
 import com.example.ucp2.ui.viewmodel.DetailMkUiState
+import com.example.ucp2.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2.ui.viewmodel.toMataKuliahEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMkView(
     modifier: Modifier = Modifier,
-    viewModel: DetailMkViewModel = viewModel(),
+    viewModel: DetailMkViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onBack: () -> Unit = {},
     onEditClick: (String) -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
+    kode: String
 ) {
     val detailUiState by viewModel.detailMkUiState.collectAsState()
 
