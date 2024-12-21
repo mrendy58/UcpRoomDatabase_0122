@@ -17,21 +17,24 @@ import com.example.ucp2.data.entity.Dosen
 import com.example.ucp2.ui.viewmodel.ListDosenViewModel
 import com.example.ucp2.ui.viewmodel.DosenListUiState
 import com.example.ucp2.ui.customwidget.TopAppBar
+import com.example.ucp2.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ListDosenView(
-    viewModel: ListDosenViewModel = viewModel(),
+    viewModel: ListDosenViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onDosenClick: (String) -> Unit,
     onAddDosen: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateDosen: () -> Unit,
+    onBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 judul = "Daftar Dosen",
-                showBackButton = false,
-                onBack = { },
+                showBackButton = true,
+                onBack = onBack
             )
         },
         floatingActionButton = {
@@ -96,7 +99,10 @@ fun BodyListDosenView(
         else -> {
             ListDosen(
                 listDosen = dosenUiState.listDosen,
-                onClick = onClick,
+                onClick = {
+                    onClick(it)
+                    println(it)
+                },
                 modifier = modifier
             )
         }
