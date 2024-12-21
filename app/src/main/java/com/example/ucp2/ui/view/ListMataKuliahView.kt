@@ -1,29 +1,62 @@
 package com.example.ucp2.ui.view
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2.data.entity.MataKuliah
+import com.example.ucp2.ui.viewmodel.ListMataKuliahViewModel
 import com.example.ucp2.ui.viewmodel.MkListUiState
+import com.example.ucp2.ui.customwidget.TopAppBar
 import kotlinx.coroutines.launch
+
+@Composable
+fun ListMataKuliahView(
+    viewModel: ListMataKuliahViewModel = viewModel(),
+    onDetail: (String) -> Unit,
+    onNavigateMataKuliah: () -> Unit,
+    onBack: () -> Unit,
+    onAddMk: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                judul = "Daftar Mata Kuliah",
+                showBackButton = true,
+                onBack = onBack,
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddMk,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Tambah Mata Kuliah")
+            }
+        }
+    ) { innerPadding ->
+        val mkUiState by viewModel.mkListUiState.collectAsState()
+
+        BodyListMataKuliahView(
+            mkUiState = mkUiState,
+            onClick = {kode ->
+                onDetail(kode)
+            },
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
 
 @Composable
 fun BodyListMataKuliahView(
@@ -68,7 +101,9 @@ fun BodyListMataKuliahView(
         else -> {
             ListMataKuliah(
                 listMk = mkUiState.listMk,
-                onClick = onClick,
+                onClick = {
+                    onClick(it)
+                    println(it) },
                 modifier = modifier
             )
         }
